@@ -51,15 +51,18 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        onSuccess(formData.name);
-        setFormData({ name: '', mobile: '', profession: '' });
-      } else {
+      if (!response.ok) {
+        const data = await response.json();
         setError(data.error || 'Registration failed');
+        setLoading(false);
+        return;
       }
+
+      const data = await response.json();
+      onSuccess(formData.name);
+      setFormData({ name: '', mobile: '', profession: '' });
     } catch (err) {
+      console.error('Error:', err);
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
@@ -69,69 +72,95 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   return (
     <div className={styles.container}>
       <div className={styles.formCard}>
-        <h1 className={styles.title}>Event Registration</h1>
-        <p className={styles.subtitle}>Register for our upcoming event</p>
-
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label htmlFor="name" className={styles.label}>
-              Full Name <span className={styles.required}>*</span>
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className={styles.input}
-              placeholder="Enter your full name"
-              required
-            />
+        <div className={styles.formCardTop}>
+          {/* Decorative circles */}
+          <div className={styles.decorativeCircles}>
+            <span className={`${styles.circle} ${styles.circle1}`}></span>
+            <span className={`${styles.circle} ${styles.circle2}`}></span>
+            <span className={`${styles.circle} ${styles.circle3}`}></span>
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="mobile" className={styles.label}>
-              Mobile Number <span className={styles.required}>*</span>
-            </label>
-            <input
-              type="tel"
-              id="mobile"
-              name="mobile"
-              value={formData.mobile}
-              onChange={handleChange}
-              className={styles.input}
-              placeholder="10-digit mobile number"
-              maxLength={10}
-              pattern="[0-9]{10}"
-              required
-            />
+          <div className={styles.formCardContent}>
+            {/* Logo - visible only on mobile */}
+            <div className={styles.logoContainer}>
+              <img 
+                src="/images/w_logo.png" 
+                alt="YES Logo" 
+                className={styles.logo}
+              />
+            </div>
+
+            <h1 className={styles.title}>YES EDU-CONNECT</h1>
+            <p className={styles.subtitle}>An Introductory & Vision Sharing Meet by YES India Foundation</p>
+
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.formGroup}>
+                <label htmlFor="name" className={styles.label}>
+                  Full Name <span className={styles.required}>*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={styles.input}
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="mobile" className={styles.label}>
+                  Mobile Number <span className={styles.required}>*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  className={styles.input}
+                  placeholder="10-digit mobile number"
+                  maxLength={10}
+                  pattern="[0-9]{10}"
+                  required
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="profession" className={styles.label}>
+                  Profession <span className={styles.optional}>(Optional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="profession"
+                  name="profession"
+                  value={formData.profession}
+                  onChange={handleChange}
+                  className={styles.input}
+                  placeholder="Enter your profession"
+                />
+              </div>
+
+              {error && <div className={styles.error}>{error}</div>}
+
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={loading}
+              >
+                {loading ? 'Registering...' : 'Register Now'}
+              </button>
+            </form>
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="profession" className={styles.label}>
-              Profession <span className={styles.optional}>(Optional)</span>
-            </label>
-            <input
-              type="text"
-              id="profession"
-              name="profession"
-              value={formData.profession}
-              onChange={handleChange}
-              className={styles.input}
-              placeholder="Enter your profession"
-            />
-          </div>
+          <div className={styles.waveBottom}></div>
+        </div>
 
-          {error && <div className={styles.error}>{error}</div>}
-
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={loading}
-          >
-            {loading ? 'Registering...' : 'Register Now'}
-          </button>
-        </form>
+        <div className={styles.formCardBottom}>
+          {/* Empty white section at bottom */}
+        </div>
       </div>
     </div>
   );

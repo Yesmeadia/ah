@@ -6,8 +6,8 @@ import AuthProvider from '@/components/AuthProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Event Registration System',
-  description: 'Register for upcoming events',
+  title: 'YES EDU-CONNECT Event Registration',
+  description: 'Register for the YES EDU-CONNECT event easily and quickly.',
 };
 
 export default function RootLayout({

@@ -55,7 +55,7 @@ export default function WelcomeMessage({ name, onClose }: WelcomeMessageProps) {
         </p>
         
         <p className={styles.subtext}>
-          to the program
+          to the YES EDU-CONNECT 
         </p>
 
         
